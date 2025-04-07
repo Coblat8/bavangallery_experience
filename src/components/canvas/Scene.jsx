@@ -61,6 +61,7 @@ function PreloadAssets() {
     '/ao/ground_floor_1_Bake1_PBR_Ambient_Occlusion.jpg',
     '/ao/ground_floor_2_Bake1_PBR_Ambient_Occlusion.jpg',
     '/ao/top_walls_Bake1_PBR_Ambient_Occlusion.jpg',
+    '/Smeared_wall/Smeared Wall_Roughness.jpg',
   ])
 
   // Preload EXR lightmaps - important for correct loading detection
@@ -122,7 +123,7 @@ export default function Scene({ ...props }) {
               setIntroCompleted(true)
             })
         })
-      }, 1500) // 4 seconds delay
+      }, 2500) // 4 seconds delay
 
       // Cleanup function to clear the timeout if component unmounts
       return () => clearTimeout(animationTimer)

@@ -4,6 +4,7 @@ import Scene from "@/components/canvas/Scene"
 import HtmlContainer from "@/components/html/HtmlContainer"
 import ScrollSignAnimation from "@/components/html/ScrollSignAnimation"
 import { useLenis } from "lenis/react"
+import { Leva } from "leva"
 import {  useEffect } from 'react'
 
 export default function Page() {
@@ -18,6 +19,7 @@ export default function Page() {
  
   return (
     <>
+    <Leva hidden={false} />
       <div className="relative flex flex-col w-screen justify-center items-center h-[2500vh] shrink-0 overflow-x-hidden ">
         {/* <Scroll > */}
         <Scene

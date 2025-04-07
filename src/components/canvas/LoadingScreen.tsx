@@ -48,7 +48,7 @@ export default function LoadingScreen({ started, onStarted }: LoadingProps) {
 				
 			</div>
 			<div className="relative top-auto lg:-top-20 flex flex-col w-full justify-center items-center">
-			<span className={`font-teko text-neutral-200 text-lg  ${total === 63 ? " opacity-0 transition-opacity duration-300" : ""}`}>{Math.floor(total * 100 / 63)}%</span>
+			<span className={`font-teko text-neutral-200 text-lg  ${total === 63 ? " opacity-0 transition-opacity duration-300" : ""}`}>{Math.floor(total * 100 / 65)}%</span>
 			<button
 				className="loadingScreen__button text-3xl font-teko hover:shadow-white hover:drop-shadow-lg hover:text-white/60 hover:blur-[1px]"
 				disabled={!readyToStart}

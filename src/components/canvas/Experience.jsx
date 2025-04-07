@@ -7,7 +7,7 @@ import { useFrame } from '@react-three/fiber'
 import { Yard } from './Yard'
 import * as THREE from 'three'
 import { useCurrentSheet } from '@theatre/r3f'
-import { AccumulativeShadows, BakeShadows, Environment, Sky, SoftShadows } from '@react-three/drei'
+import {  Environment, SoftShadows } from '@react-three/drei'
 import { useIsClient } from '@uidotdev/usehooks'
 import { useAnimationStore } from 'lib/store/useAnimationStore'
 import IntroScene from './IntroScene'
@@ -21,7 +21,8 @@ export default function Experience() {
   const cameraLookAtRef = useRef(null)
     const cameraRef = useRef(null)
 
-const setInputGroupVisible = useAnimationStore((state) => state.setInputGroupVisible)
+  const setInputGroupVisible = useAnimationStore((state) => state.setInputGroupVisible)
+    const introCompleted =useAnimationStore(state => state.introCompleted)
   // Only use refs, no state at all
   const showFirstObjectRef = useRef(true)
   const galleryGroupRef = useRef(null)
@@ -96,18 +97,19 @@ const setInputGroupVisible = useAnimationStore((state) => state.setInputGroupVis
         environmentIntensity={0.1}
         background
       /> */}
-      {/* <directionalLight 
-        color={new THREE.Color(0xffffff)}
-        intensity={1}
-        position={[0, 2, 0]} 
-        /> */}
       <Environment
         files={'/venice_sunset_1k.hdr'}
         blur={2}
         environmentIntensity={0.2}
         background
-        // environmentRotation-y={-Math.PI / 2}
+        environmentRotation-y={-Math.PI / 2}
       />
+      {/* <directionalLight 
+        color={new THREE.Color(0xffffff)}
+        intensity={1}
+        position={[0, 2, 0]} 
+        /> */}
+
       {/* <Sky
         distance={450000}
         sunPosition={[0, 1, 0]}
@@ -142,7 +144,7 @@ const setInputGroupVisible = useAnimationStore((state) => state.setInputGroupVis
         ref={galleryGroupRef}
         visible={false}
       >
-        <BavanGallery />
+       {introCompleted && <BavanGallery />}
         <Yard />
       </group>
     </>

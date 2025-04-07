@@ -1,6 +1,6 @@
 
-import { CubeCamera, InstanceProps, Merged, useBoxProjectedEnv, useDetectGPU, useEnvironment, useGLTF, useTexture } from '@react-three/drei'
-import { applyProps, ObjectMap, useLoader } from '@react-three/fiber'
+import {  CubeCamera, Environment, InstanceProps, Merged, useBoxProjectedEnv, useDetectGPU, useEnvironment, useGLTF, useTexture } from '@react-three/drei'
+import {  ObjectMap, useLoader } from '@react-three/fiber'
 import React, { FC, useEffect, useLayoutEffect } from 'react'
 import * as THREE from 'three'
 import { GLTF } from 'three-stdlib'
@@ -79,13 +79,15 @@ import { EXRLoader } from 'three/addons/loaders/EXRLoader.js'
 // }
 
 export function BavanGallery(props) {
-  const { scenes ,nodes, materials } = useGLTF('/bavan_gallery_final.glb')
+  const { nodes, materials } = useGLTF('/bavan_gallery_final.glb')
+
 
    const GPUTier = useDetectGPU() 
 
   //DIFFUSE MAps
   const smearedWallMap = useTexture('/Smeared_wall/Smeared Wall_BaseColor3.jpg')
   const smearedWallNormal = useTexture('/Smeared_wall/Smeared Wall_Normal.jpg')
+  const smearedWallRoughness = useTexture('/Smeared_wall/Smeared Wall_Roughness.jpg')
   const blackMetalMap = useTexture('/black_metal/metal09_diffuse.jpg')
   const blackMetalNormal = useTexture('/black_metal/metal0_normal_opengl.jpg')
   const blackMetalRoughness = useTexture('/black_metal/metal0_glossiness.jpg')
@@ -167,94 +169,10 @@ export function BavanGallery(props) {
   image_3_map.repeat.set(2.6, 2.4)
   image_3_map.offset.set(-0.55, -0.875)
 
-  const bottomWalls = nodes.bottom_walls
-  const insideWalls = nodes.inside_wall
-  const image1 = nodes.Image_1_front
-  const image2 = nodes.Image_2_front
-  const image3 = nodes.Image_3_front
-  const image4 = nodes.Image_4_front
-  const image5 = nodes.Image_5_front
-  const paintFrame = nodes.pictureFrame01_MDL_nar_blinn2_0001
-  const Lamps013 = nodes.Lamps013
-  const Lamps005 = nodes.Lamps005
-  const bench1_2 = nodes.bench1_2
-
-  useLayoutEffect(() => {
-    bottomWalls.traverse((o) => {
-      if (o.isMesh) {
-        applyProps(o, { castShadow: true, receiveShadow: true, 'material-envMapIntensity': 0.1 })
-      }
-    })
-    insideWalls.traverse((o) => {
-      if (o.isMesh) {
-        applyProps(o, { castShadow: true, receiveShadow: true, 'material-envMapIntensity': 0.1 })
-      }
-    })
-    image1.traverse((o) => {
-      if (o.isMesh) {
-        applyProps(o, { castShadow: true, receiveShadow: true, 'material-envMapIntensity': 0.1 })
-      }
-    })
-    image2.traverse((o) => {
-      if (o.isMesh) {
-        applyProps(o, { castShadow: true, receiveShadow: true, 'material-envMapIntensity': 0.1 })
-      }
-    })
-    image3.traverse((o) => {
-      if (o.isMesh) {
-        applyProps(o, { castShadow: true, receiveShadow: true, 'material-envMapIntensity': 0.1 })
-      }
-    })
-    image4.traverse((o) => {
-      if (o.isMesh) {
-        applyProps(o, { castShadow: true, receiveShadow: true, 'material-envMapIntensity': 0.1 })
-      }
-    })
-    image5.traverse((o) => {
-      if (o.isMesh) {
-        applyProps(o, { castShadow: true, receiveShadow: true, 'material-envMapIntensity': 0.1 })
-      }
-    })
-    paintFrame.traverse((o) => {
-      if (o.isMesh) {
-        applyProps(o, { castShadow: true, receiveShadow: true, 'material-envMapIntensity': 0.2 })
-      }
-    })
-    Lamps013.traverse((o) => {
-      if (o.isMesh) {
-        applyProps(o, { castShadow: true, receiveShadow: true, 'material-envMapIntensity': 0.2 })
-      }
-    })
-    Lamps005.traverse((o) => {
-      if (o.isMesh) {
-        applyProps(o, { castShadow: true, receiveShadow: true, 'material-envMapIntensity': 0.2 })
-      }
-    })
-    bench1_2.traverse((o) => {
-      if (o.isMesh) {
-        applyProps(o, { castShadow: true, receiveShadow: true, 'material-envMapIntensity': 0.3 })
-      }
-    })
-
-    const floor = nodes.ground_floor_1
-    if (floor) floor.remove(floor)
-  }, [
-    bottomWalls,
-    bench1_2,
-    Lamps005,
-    Lamps013,
-    paintFrame,
-    image5,
-    image4,
-    image3,
-    image2,
-    image1,
-    insideWalls,
-  ])
 
 
-  const groundEnv = useEnvironment({ files: '/studio_small_03_1k.hdr' })
-  const projection = useBoxProjectedEnv([0, 2, 0], [17, 5.5, 12])
+  const groundEnv = useEnvironment({ files: '/venice_sunset_1k.hdr' })
+
 
 
   const noMaterial = new THREE.MeshStandardMaterial({
@@ -293,27 +211,32 @@ export function BavanGallery(props) {
   materials.Image_1_front_baked.emissiveIntensity = 0.8
   materials.Image_1_front_baked.toneMapped = false
   materials.Image_1_front_baked.emissiveMap = image_1_map
+   materials.Image_1_front_baked.envMapIntensity = 0.1
   nodes.Image_1_front.material = materials.Image_1_front_baked
 
   materials.Image_2_front_baked.emissiveIntensity = 1
   materials.Image_2_front_baked.toneMapped = false
   materials.Image_2_front_baked.emissiveMap = image_2_map
+   materials.Image_2_front_baked.envMapIntensity = 0.1
   nodes.Image_2_front.material = materials.Image_2_front_baked
 
   materials.Image_3_front_baked.emissiveIntensity = 0.8
   materials.Image_3_front_baked.toneMapped = false
   materials.Image_3_front_baked.emissiveMap = image_3_map
+   materials.Image_3_front_baked.envMapIntensity = 0.1
   nodes.Image_3_front.material = materials.Image_3_front_baked
 
   materials.Image_5_front_Baked.emissiveIntensity = 1
   materials.Image_5_front_Baked.toneMapped = false
   materials.Image_5_front_Baked.emissiveMap = image_5_map
   materials.Image_5_front_Baked.emissiveMap.flipY = true
+  materials.Image_5_front_Baked.envMapIntensity = 0.1
   nodes.Image_5_front.material = materials.Image_5_front_Baked
 
   materials.image_4_baked.emissiveIntensity = 0.7
   materials.image_4_baked.toneMapped = false
   materials.image_4_baked.emissiveMap = image_4_map
+  materials.image_4_baked.envMapIntensity= 0.1
   nodes.Image_4_front.material = materials.image_4_baked
 
   materials.text.emissiveIntensity = 100
@@ -346,6 +269,8 @@ export function BavanGallery(props) {
     Exhibition_continues_2: nodes.exhibition_continues_2,
   }
 
+    const projection = useBoxProjectedEnv([0, 0.5, -0.05], [20, 12, 12])
+
   return (
     <group
       {...props}
@@ -360,10 +285,12 @@ export function BavanGallery(props) {
           map={smearedWallMap}
           normalMap={smearedWallNormal}
           aoMap={bottomWalls_AO}
-          aoMapIntensity={0.2}
+          aoMapIntensity={0.4}
           lightMap={bottomWalls_LM}
           lightMapIntensity={1.5}
-          envMapIntensity={0.1}
+          envMapIntensity={0.45}
+          roughnessMap={smearedWallRoughness}
+          roughness={0.4}
         />
       </mesh>
       <mesh
@@ -375,10 +302,12 @@ export function BavanGallery(props) {
           map={smearedWallMap}
           normalMap={smearedWallNormal}
           aoMap={insideWall_AO}
-          aoMapIntensity={0.2}
+          aoMapIntensity={0.4}
           lightMap={insideWall_LM}
           lightMapIntensity={1.5}
-          envMapIntensity={0.1}
+          envMapIntensity={0.45}
+          roughnessMap={smearedWallRoughness}
+          roughness={0.4}
         />
       </mesh>
       <mesh
@@ -390,17 +319,19 @@ export function BavanGallery(props) {
           map={smearedWallMap}
           normalMap={smearedWallNormal}
           aoMap={topWalls_AO}
-          aoMapIntensity={0.2}
+          aoMapIntensity={0.4}
           lightMap={topWalls_LM}
           lightMapIntensity={1.5}
-          envMapIntensity={0.1}
+          envMapIntensity={0.45}
+          roughnessMap={smearedWallRoughness}
+          roughness={0.4}
         />
       </mesh>
       <CubeCamera
         frames={1}
-        position={[0, 0.01, 0]}
+        position={[0, 0.5, 0]}
         rotation={[0, 0, 0]}
-        resolution={2048}
+        resolution={512}
         near={1}
         far={1000}
       >
@@ -408,44 +339,54 @@ export function BavanGallery(props) {
           <>
             <mesh
               geometry={nodes.ground_floor_1.geometry}
-              position={[0, 0, 0]}
+              position={[0, -0.49, 0]}
               receiveShadow
+              castShadow
               dispose={null}
             >
               <meshStandardMaterial
                 map={groundConcreteMap}
-                // normalMap={groundConcreteNormal}
-                // normalMap-encoding={THREE.LinearSRGBColorSpace}
+                normalMap={groundConcreteNormal}
+                normalMap-encoding={THREE.LinearSRGBColorSpace}
                 roughnessMap={groundConcreteRoughness}
                 aoMap={groundFloor_1_AO}
-                aoMapIntensity={0.2}
+                aoMapIntensity={0.4}
                 lightMap={groundFloor_1_LM}
-                lightMapIntensity={0.2}
+                lightMapIntensity={1}
                 envMap={texture}
-                envMapIntensity={0.2}
-                roughness={0.4}
+                envMapIntensity={0.3}
+                roughness={0.12}
                 metalness={0}
+                color="#aaa"
+                normalScale={[0.15, -0.15]}
                 // envMapRotation-z={Math.PI}
                 // envMapRotation-x={Math.PI / 3}
                 {...projection}
               />
             </mesh>
             <mesh
-              geometry={nodes.ground_floor_2.geometry}git 
-              position={[0, 0, 0]}
+              geometry={nodes.ground_floor_2.geometry}
+              receiveShadow
+              castShadow
+              position={[0, -0.5, 0]}
+              dispose={null}
             >
               <meshStandardMaterial
                 map={groundConcreteMap}
-                // normalMap={groundConcreteNormal}
+                normalMap={groundConcreteNormal}
+                normalMap-encoding={THREE.LinearSRGBColorSpace}
                 roughnessMap={groundConcreteRoughness}
                 aoMap={groundFloor_2_AO}
                 aoMapIntensity={0.2}
                 lightMap={groundFloor_2_LM}
-                lightMapIntensity={0.2}
+                lightMapIntensity={0.4}
                 envMap={texture}
-                envMapIntensity={0.4}
-                roughness={0.4}
+                envMapIntensity={0.3}
+                roughness={0.12}
                 metalness={0}
+                color="#aaa"
+                normalScale={[0.15, -0.15]}
+                {...projection}
               />
             </mesh>
           </>
@@ -480,11 +421,26 @@ export function BavanGallery(props) {
           Exhibition_continues_2,
         }) => (
           <>
-            <Image_1_front />
-            <Image_2_front />
-            <Image_3_front />
-            <Image_4_front />
-            <Image_5_front />
+            <Image_1_front
+              castShadow
+              receiveShadow
+            />
+            <Image_2_front
+              castShadow
+              receiveShadow
+            />
+            <Image_3_front
+              castShadow
+              receiveShadow
+            />
+            <Image_4_front
+              castShadow
+              receiveShadow
+            />
+            <Image_5_front
+              castShadow
+              receiveShadow
+            />
             <>
               <Single_lamp
                 position={[-1.633, 3.256, -4.81]}
@@ -598,10 +554,16 @@ export function BavanGallery(props) {
                 scale={[2.536, 2.536, 2.065]}
               />
             </>
-            <Bench1_2 position={[4.601, 0.356, 5.697]} />
+            <Bench1_2
+              position={[4.601, 0.356, 5.697]}
+              castShadow
+              receiveShadow
+            />
             <Bench1_2
               position={[-5.276, 0.357, -4.837]}
               rotation={[0, Math.PI / 2, 0]}
+              castShadow
+              receiveShadow
             />
             <Door_knock />
             <Paint_Hanger
@@ -614,10 +576,13 @@ export function BavanGallery(props) {
               rotation={[Math.PI, -0.664, Math.PI]}
               scale={0.811}
             />
-            <PictureFrame01_MDL_nar_blinn2_0001 />
+            <PictureFrame01_MDL_nar_blinn2_0001
+              castShadow
+              receiveShadow
+            />
             <Cube_lamp_1 />
             <Cube_lamp_1 position={[0, 0, -4.87662]} />
-            <Door_floor_1 position={[0, -0.01, 0]} />
+            <Door_floor_1 position={[0, -0.01, 0]}></Door_floor_1>
             <Door_floor_1
               position={[-6.9, 3.52942, 0]}
               scale={[1.03, 1.03, 1]}
