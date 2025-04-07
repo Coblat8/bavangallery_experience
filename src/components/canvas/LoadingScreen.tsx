@@ -41,7 +41,7 @@ export default function LoadingScreen({ started, onStarted }: LoadingProps) {
 					initial={{ fillOpacity: 0 }}
 					animate={{ fillOpacity: progress / 100 }}
 					exit={{opacity: 0, transition:{duration: 1}}}
-					transition={{ duration: 1 }}
+					// transition={{ duration: 1 }}
 				>
 					<LoadingLogo progress={progress} total={total} />
 				</motion.div>

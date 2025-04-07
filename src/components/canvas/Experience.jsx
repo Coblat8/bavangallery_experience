@@ -102,7 +102,7 @@ const setInputGroupVisible = useAnimationStore((state) => state.setInputGroupVis
         position={[0, 2, 0]} 
         /> */}
       <Environment
-        preset='sunset'
+        files={'/venice_sunset_1k.hdr'}
         blur={2}
         environmentIntensity={0.2}
         background
